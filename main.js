@@ -1,60 +1,63 @@
-const tienda = {
-    productos: [
+// main.js
+document.addEventListener('DOMContentLoaded', function() {
+    const productos = [
         { nombre: 'Velas de Miel medianas (x2)', precio: 180 },
         { nombre: 'Vela de Soja 7 Chakras', precio: 630 },
         { nombre: 'Vela Circo XXL con Plato de resina', precio: 1100 },
         { nombre: 'Dos Velas de Soja, con tapa de bambú', precio: 790 }
-    ],
-    carrito: [],
-    
-    mostrarProductos: function () {
-        let opciones = "Seleccione un artículo ingresando el número:\n\n";
-        for (let i = 0; i < this.productos.length; i++) {
-            opciones += `${i + 1}. ${this.productos[i].nombre}\n`;
-        }
-        return parseInt(prompt(opciones));
-    },
-    
-    obtenerCantidad: function (producto) {
-        const cantidad = parseInt(prompt(`Ingrese la cantidad de unidades para el artículo seleccionado "${producto.nombre}".\nPrecio: $${producto.precio}`));
+    ];
+    const carrito = [];
 
-        if (!isNaN(cantidad) && cantidad > 0) {
-            return cantidad;
-        } else {
-            alert('Cantidad no válida. Inténtelo de nuevo.');
-            return this.obtenerCantidad(producto);
-        }
-    },
-    
-    agregarAlCarrito: function (producto, cantidad) {
-        this.carrito.push({ producto, cantidad });
-    },
-    
-    compraDeProductos: function () {
-        while (true) {
-            const seleccion = this.mostrarProductos();
-            if (seleccion >= 1 && seleccion <= this.productos.length) {
-                const productoSeleccionado = this.productos[seleccion - 1];
-                const cantidad = this.obtenerCantidad(productoSeleccionado);
-                this.agregarAlCarrito(productoSeleccionado, cantidad);
-                const continuar = confirm("¿Desea agregar más productos al carrito?");
-                if (!continuar) {
-                    break;
-                }
-            } else {
-                alert('Selección no válida. Inténtelo de nuevo.');
-            }
-        }
-    
-        let totalCompra = 0;
-        for (const item of this.carrito) {
-            totalCompra += item.producto.precio * item.cantidad;
-        }
-    
-        alert(`Total de la compra: $${totalCompra}`);
-        alert(`Gracias por su compra!`);
-    
+    // Función para actualizar la visualización del carrito
+    function actualizarCarrito() {
+        const carritoContainer = document.getElementById('carrito');
+        carritoContainer.innerHTML = ''; // Limpiar el carrito antes de actualizarlo
+
+        carrito.forEach(function(item, index) {
+            const div = document.createElement('div');
+            div.classList.add('carrito-item');
+            div.innerHTML = `
+                <span>${item.nombre} - $${item.precio}</span>
+                <button class="quitar-item" data-index="${index}">Quitar</button>
+            `;
+            carritoContainer.appendChild(div);
+        });
+
+        // Actualizar el total
+        const totalCarrito = document.getElementById('total-carrito');
+        const total = carrito.reduce((sum, item) => sum + item.precio, 0);
+        totalCarrito.textContent = `Total: $${total}`;
     }
-};
 
-tienda.compraDeProductos();
+    // Función para agregar un producto al carrito
+    function agregarAlCarrito(producto) {
+        carrito.push(producto);
+        actualizarCarrito();
+    }
+
+    // Función para quitar un producto del carrito
+    function quitarDelCarrito(index) {
+        carrito.splice(index, 1);
+        actualizarCarrito();
+    }
+
+    // Seleccionar los botones "Comprar" por su ID y agregar eventos de clic a cada uno
+    const botonesComprar = document.querySelectorAll('.cont-button input[type="button"]');
+    botonesComprar.forEach(function(boton, index) {
+        boton.addEventListener('click', function() {
+            const producto = productos[index];
+            agregarAlCarrito(producto);
+        });
+    });
+
+    // Seleccionar los botones "Quitar" en el carrito y agregar eventos de clic a cada uno
+    document.addEventListener('click', function(event) {
+        if (event.target.classList.contains('quitar-item')) {
+            const index = parseInt(event.target.getAttribute('data-index'));
+            quitarDelCarrito(index);
+        }
+    });
+
+    // Inicializar la visualización del carrito
+    actualizarCarrito();
+});
