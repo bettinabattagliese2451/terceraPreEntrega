@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function quitarDelCarrito(index) {
         carrito.splice(index, 1);
         actualizarCarrito();
+        alert('Se ha quitado el producto del carrito.');
     }
 
     // Seleccionar los botones "Comprar" por su ID y agregar eventos de clic a cada uno
