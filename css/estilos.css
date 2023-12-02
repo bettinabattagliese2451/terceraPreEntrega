@@ -220,3 +220,32 @@
     justify-content: center;
     align-items: center;
   }
+
+  /* Estilos para el contenedor del carrito y los elementos del carrito */
+#carrito {
+  border: 1px solid #0e0d0d;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.carrito-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 5px;
+}
+
+/* Estilos para el botón de quitar */
+.quitar-item {
+  background-color: #e44ba4;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.quitar-item:hover {
+  background-color: #892fd3;
+}
