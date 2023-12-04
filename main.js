@@ -120,9 +120,11 @@ document.addEventListener('DOMContentLoaded', function () {
     // Función para iniciar el proceso de pago con Mercado Pago
     function iniciarPago() {
         // Configurar preferencias de Mercado Pago (debes reemplazar con tus credenciales)
-        const mp = new MercadoPago('TUS_CREDENCIALES_PUBLICAS', {
+
+        const mp = new MercadoPago('APP_USR-f019de0e-1303-4307-adec-da50e6bdebe5', {
             locale: 'es-AR' // Agrega la configuración de idioma si lo necesitas
         });
+        
 
         // Crear una preferencia de pago
         const preference = {
